@@ -14,9 +14,11 @@
       <v-container fluid class="fill-height">
         <v-row class="align-center justify-center" style="height: 100%">
           <v-col cols="6" style="height: 100%" class="pl-6">
-            <div class="pb-3" style="height: 55%">
+            <div class="pb-3" style="height: 50%">
               <v-card class="elevation-6 pa-0 overflow-y-auto" style="height: 100%">
+
                 <p class="mb-1 headline">
+                  <v-icon color="primary" large>mdi-polymer</v-icon>
                   参数说明
                 </p>
                 <v-card>
@@ -26,12 +28,12 @@
                     </v-tab>
                   </v-tabs>
                   <v-tabs-items v-model="tab">
-                    <v-tab-item >
+                    <v-tab-item>
                       <v-card flat>
                         <v-card-title class="headline">计算单词文本中可以构成多少个单词链（能够构成所有单词链的数目）</v-card-title>
                         <v-card-text>
                           <p>
-                          -n参数统计该单词文本中共有多少条单词链，包含嵌套单词链
+                            -n参数统计该单词文本中共有多少条单词链，包含嵌套单词链
                           </p>
                           <p>
                             参数-n不要求和其他参数联合使用
@@ -39,7 +41,7 @@
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
-                    <v-tab-item >
+                    <v-tab-item>
                       <v-card flat>
                         <v-card-title class="headline">计算最多单词数量的单词链</v-card-title>
                         <v-card-text>
@@ -58,12 +60,12 @@
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
-                    <v-tab-item >
+                    <v-tab-item>
                       <v-card flat>
                         <v-card-title class="headline">计算字母最多的单词链</v-card-title>
                         <v-card-text>
                           <p>
-                          -c参数计算字母最多的英语单词链
+                            -c参数计算字母最多的英语单词链
                           </p>
                           <p>
                             需要保证单词的输出顺序满足其单词链顺序，即首尾相连
@@ -77,12 +79,12 @@
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
-                    <v-tab-item >
+                    <v-tab-item>
                       <v-card flat>
                         <v-card-title class="headline">指定单词链开头字母</v-card-title>
                         <v-card-text>
                           <p>
-                          -c参数指定单词链的首字母
+                            -c参数指定单词链的首字母
                           </p>
                           <p>
                             参数-h属于附加型参数，单独出现属于异常
@@ -93,12 +95,12 @@
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
-                    <v-tab-item >
+                    <v-tab-item>
                       <v-card flat>
                         <v-card-title class="headline">指定单词链开头字母</v-card-title>
                         <v-card-text>
                           <p>
-                          -h参数指定单词链的首字母
+                            -h参数指定单词链的首字母
                           </p>
                           <p>
                             参数-h属于附加型参数，单独出现属于异常
@@ -109,7 +111,7 @@
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
-                    <v-tab-item >
+                    <v-tab-item>
                       <v-card flat>
                         <v-card-title class="headline">指定单词链结尾字母</v-card-title>
                         <v-card-text>
@@ -125,7 +127,7 @@
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
-                    <v-tab-item >
+                    <v-tab-item>
                       <v-card flat>
                         <v-card-title class="headline">指定单词链中所有单词均不允许出现的首字母</v-card-title>
                         <v-card-text>
@@ -141,7 +143,7 @@
                         </v-card-text>
                       </v-card>
                     </v-tab-item>
-                    <v-tab-item >
+                    <v-tab-item>
                       <v-card flat>
                         <v-card-title class="headline">允许单词文本隐含单词环</v-card-title>
                         <v-card-text>
@@ -164,7 +166,7 @@
                 </v-card>
               </v-card>
             </div>
-            <div class="pb-0" style="height: 45%">
+            <div class="pb-0" style="height: 50%">
               <v-card class="elevation-6 overflow-y-auto" style="height: 100%">
                 <v-container fluid class="fill-height py-0">
                   <v-row class="align-center justify-center" style="height: 100%">
@@ -202,7 +204,7 @@
 
           </v-col>
           <v-col cols="6" style="height: 100%" class="pr-6">
-            <div class="pb-3" style="height: 55%">
+            <div class="pb-3" style="height: 50%">
               <v-card class="elevation-6" style="height: 100%; display: flex; flex-direction: column">
 
                 <v-toolbar class="elevation-0 py-1" style="flex-grow: 0">
@@ -225,9 +227,9 @@
                 </v-card-text>
               </v-card>
             </div>
-            <div class="pb-0" style="height: 45%">
+            <div class="pb-0" style="height: 50%">
               <v-card class="elevation-6" style="height: 100%; display: flex; flex-direction: column">
-                <v-toolbar class="elevation-0 py-1" style="flex-grow: 0">
+                <v-toolbar class="elevation-0 py-0" style="flex-grow: 0">
                   <v-btn dark class="primary" @click="exportText"> 导出文本文件 <v-icon right light> mdi-file-export </v-icon>
                   </v-btn>
                   <v-spacer />
@@ -235,9 +237,14 @@
                   </v-btn>
                 </v-toolbar>
                 <v-card-text style="flex-grow: 1" class="pt-3">
-                  <v-textarea filled no-resize height="93%" placeholder="求解结果" style="height: 100%" readonly
-                    v-model="outputText" :success-messages="runMessage" />
+                  <v-textarea filled no-resize height="100%" placeholder="求解结果" style="height: 100%" readonly
+                    v-model="outputText" />
                 </v-card-text>
+                <v-chip  class="ml-4 mb-5 mr-4" color="green" outlined>
+                  <v-icon left>mdi-clock-check-outline</v-icon>
+                  计算用时：{{ runMessage }} ms
+                </v-chip>
+
               </v-card>
             </div>
           </v-col>
@@ -250,61 +257,13 @@
 <script>
 const path = window.require('path')
 const ffi = window.require('ffi-napi')
-const corePtr = ffi.DynamicLibrary(path.resolve('./core.dll')).get('gui_engine')
-const core = ffi.ForeignFunction(corePtr, 'string', ['string', 'int', 'char', 'char', 'bool'])
+const corePtr = ffi.DynamicLibrary(path.resolve('./COREDLL_rej_debug.dll')).get('vuetifyAPI')
+const core = ffi.ForeignFunction(corePtr, 'string', ['string', 'int', 'char', 'char', 'char', 'bool'])
 const moment = window.require('moment')
 
 export default {
   name: 'App',
   data: () => ({
-    headers: [
-      {
-        text: '功能',
-        align: 'start',
-        sortable: false,
-        value: 'function',
-      },
-      { text: '参数', value: 'parameter' },
-      { text: '详细描述', value: 'details' },
-
-    ],
-    desserts: [
-      {
-        function: '单词链数量',
-        parameter: '-n',
-        detail: '计算单词文本中可以构成多少个单词链（能够构成所有单词链的数目）;该参数不能和其他参数联合使用',
-      },
-      {
-        function: '单词数最多',
-        parameter: '-w',
-        detail: '计算最多单词数量的单词链，与-n和-c等功能性参数不兼容',
-      },
-      {
-        function: '字母数最多',
-        parameter: '-c',
-        detail: '计算字母最多的单词链，与-n和-w等功能性参数不兼容',
-      },
-      {
-        function: '首字母限制',
-        parameter: '-h',
-        detail: '指定单词链的首字母，属于附加型参数，与-t兼容',
-      },
-      {
-        function: '尾字母限制',
-        parameter: '-t',
-        detail: '指定单词链的尾字母，属于附加型参数，与-h兼容',
-      },
-      {
-        function: '不允许出现的首字母',
-        parameter: '-j',
-        detail: '指定不允许出现的首字母，属于附加型参数，与-h和-t兼容',
-      },
-      {
-        function: '允许单词环',
-        parameter: '-r',
-        detail: '允许单词文本隐含单词环，与-h,-t和-j兼容',
-      },
-    ],
     tab: null,
     items: [
       { tab: '-n', content: '单词链数量\n-n' },
@@ -407,17 +366,17 @@ export default {
       core.async(
         this.inputText,
         [0, this.allowRing ? 3 : 1, 2, this.allowRing ? 3 : 1][this.selectedMode],
-        this.noAvailableOptions || !this.head ? 0 : this.head.charCodeAt(0),
-        this.noAvailableOptions || !this.tail ? 0 : this.tail.charCodeAt(0),
-        this.noAvailableOptions || !this.reject ? 0 : this.reject.charCodeAt(0),
-        this.selectedMode === 3,
+        this.noAvailableOptions || !this.head ? "`".charCodeAt(0) : this.head.charCodeAt(0),
+        this.noAvailableOptions || !this.tail ? "`".charCodeAt(0) : this.tail.charCodeAt(0),
+        this.noAvailableOptions || !this.reject ? "`".charCodeAt(0) : this.reject.charCodeAt(0),
+        this.selectedMode === 1,
         (e, d) => {
           if (e) this.reportError(e)
           if (/^WordList-GUI: /.test(d)) {
             this.reportError(d.substring(14))
           } else {
             this.outputText = d
-            this.runMessage = '计算用时：' + moment().diff(start) + 'ms'
+            this.runMessage = '' + moment().diff(start) + ''
           }
           this.calculating = false
         }
