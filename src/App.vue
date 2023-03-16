@@ -236,11 +236,11 @@
                   <v-btn dark class="primary" @click="clearOutputText"> 清空 <v-icon right light> mdi-cached </v-icon>
                   </v-btn>
                 </v-toolbar>
-                <v-card-text style="flex-grow: 1" class="pt-3">
+                <v-card-text style="flex-grow: 1" class="pt-0">
                   <v-textarea filled no-resize height="100%" placeholder="求解结果" style="height: 100%" readonly
                     v-model="outputText" />
                 </v-card-text>
-                <v-chip  class="ml-4 mb-5 mr-4" color="green" outlined>
+                <v-chip class="ml-4 mb-5 mr-4 elevation-0 py-0" color="green" style="flex-grow: 0" outlined>
                   <v-icon left>mdi-clock-check-outline</v-icon>
                   计算用时：{{ runMessage }} ms
                 </v-chip>
@@ -257,7 +257,7 @@
 <script>
 const path = window.require('path')
 const ffi = window.require('ffi-napi')
-const corePtr = ffi.DynamicLibrary(path.resolve('./COREDLL_64.dll')).get('vuetifyAPI')
+const corePtr = ffi.DynamicLibrary(path.resolve('./COREDLL031616.dll')).get('vuetifyAPI')
 const core = ffi.ForeignFunction(corePtr, 'string', ['string', 'int', 'char', 'char', 'char', 'bool'])
 const moment = window.require('moment')
 
@@ -364,35 +364,47 @@ export default {
       this.runMessage = ''
       let start = moment()
       if (this.head.length > 1) {
-        this.reportError("-h参数须为长度为1的英文字母")
+        this.reportError("-h参数须为长度为1的英文字母，当前输入长度大于1")
         this.calculating = false
       } else if (this.tail.length > 1) {
-        this.reportError("-t参数须为长度为1的英文字母")
+        this.reportError("-t参数须为长度为1的英文字母，当前输入长度大于1")
         this.calculating = false
       } else if (this.reject.length > 1) {
-        this.reportError("-j参数须为长度为1的英文字母")
+        this.reportError("-j参数须为长度为1的英文字母，当前输入长度大于1")
+        this.calculating = false
+      } else if (!(this.head.length == 0 || (this.head.charCodeAt(0) >= "a".charCodeAt(0) && this.head.charCodeAt(0) <= "z".charCodeAt(0))
+        || (this.head.charCodeAt(0) >= "A".charCodeAt(0) && this.head.charCodeAt(0) <= "Z".charCodeAt(0)))) {
+        this.reportError("-h参数须为长度为1的英文字母，当前输入非英文字母")
+        this.calculating = false
+      } else if (!(this.tail.length == 0 || (this.tail.charCodeAt(0) >= "a".charCodeAt(0) && this.tail.charCodeAt(0) <= "z".charCodeAt(0))
+        || (this.tail.charCodeAt(0) >= "A".charCodeAt(0) && this.tail.charCodeAt(0) <= "Z".charCodeAt(0)))) {
+        this.reportError("-t参数须为长度为1的英文字母，当前输入非英文字母")
+        this.calculating = false
+      } else if (!(this.reject.length == 0 || (this.reject.charCodeAt(0) >= "a".charCodeAt(0) && this.reject.charCodeAt(0) <= "z".charCodeAt(0))
+        || (this.reject.charCodeAt(0) >= "A".charCodeAt(0) && this.reject.charCodeAt(0) <= "Z".charCodeAt(0)))) {
+        this.reportError("-j参数须为长度为1的英文字母，当前输入非英文字母")
         this.calculating = false
       } else {
         core.async(
-        this.inputText,
-        [0, this.allowRing ? 3 : 1, 2, this.allowRing ? 3 : 1][this.selectedMode],
-        this.noAvailableOptions || !this.head ? "`".charCodeAt(0) : this.head.charCodeAt(0),
-        this.noAvailableOptions || !this.tail ? "`".charCodeAt(0) : this.tail.charCodeAt(0),
-        this.noAvailableOptions || !this.reject ? "`".charCodeAt(0) : this.reject.charCodeAt(0),
-        this.selectedMode === 1,
-        (e, d) => {
-          if (e) this.reportError(e)
-          if (/^WordList-GUI: /.test(d)) {
-            this.reportError(d.substring(14))
-          } else {
-            this.outputText = d
-            this.runMessage = '' + moment().diff(start) + ''
+          this.inputText,
+          [0, this.allowRing ? 3 : 1, 2, this.allowRing ? 3 : 1][this.selectedMode],
+          this.noAvailableOptions || !this.head ? 0 : this.head.charCodeAt(0),
+          this.noAvailableOptions || !this.tail ? 0 : this.tail.charCodeAt(0),
+          this.noAvailableOptions || !this.reject ? 0 : this.reject.charCodeAt(0),
+          this.selectedMode === 1,
+          (e, d) => {
+            if (e) this.reportError(e)
+            if (/^WordList-GUI: /.test(d)) {
+              this.reportError(d.substring(14))
+            } else {
+              this.outputText = d
+              this.runMessage = '' + moment().diff(start) + ''
+            }
+            this.calculating = false
           }
-          this.calculating = false
-        }
-      )
+        )
       }
-      
+
     },
   }
 };
