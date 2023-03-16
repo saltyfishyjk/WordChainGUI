@@ -257,7 +257,7 @@
 <script>
 const path = window.require('path')
 const ffi = window.require('ffi-napi')
-const corePtr = ffi.DynamicLibrary(path.resolve('./COREDLL_rej_debug.dll')).get('vuetifyAPI')
+const corePtr = ffi.DynamicLibrary(path.resolve('./COREDLL_64.dll')).get('vuetifyAPI')
 const core = ffi.ForeignFunction(corePtr, 'string', ['string', 'int', 'char', 'char', 'char', 'bool'])
 const moment = window.require('moment')
 
@@ -363,7 +363,17 @@ export default {
       this.outputText = ''
       this.runMessage = ''
       let start = moment()
-      core.async(
+      if (this.head.length > 1) {
+        this.reportError("-h参数须为长度为1的英文字母")
+        this.calculating = false
+      } else if (this.tail.length > 1) {
+        this.reportError("-t参数须为长度为1的英文字母")
+        this.calculating = false
+      } else if (this.reject.length > 1) {
+        this.reportError("-j参数须为长度为1的英文字母")
+        this.calculating = false
+      } else {
+        core.async(
         this.inputText,
         [0, this.allowRing ? 3 : 1, 2, this.allowRing ? 3 : 1][this.selectedMode],
         this.noAvailableOptions || !this.head ? "`".charCodeAt(0) : this.head.charCodeAt(0),
@@ -381,6 +391,8 @@ export default {
           this.calculating = false
         }
       )
+      }
+      
     },
   }
 };
