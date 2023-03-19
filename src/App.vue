@@ -257,7 +257,7 @@
 <script>
 const path = window.require('path')
 const ffi = window.require('ffi-napi')
-const corePtr = ffi.DynamicLibrary(path.resolve('./COREDLL031616.dll')).get('vuetifyAPI')
+const corePtr = ffi.DynamicLibrary(path.resolve('./COREDLL031820.dll')).get('vuetifyAPI')
 const core = ffi.ForeignFunction(corePtr, 'string', ['string', 'int', 'char', 'char', 'char', 'bool'])
 const moment = window.require('moment')
 
@@ -364,30 +364,30 @@ export default {
       this.runMessage = ''
       let start = moment()
       if (this.head.length > 1) {
-        this.reportError("-h参数须为长度为1的英文字母，当前输入长度大于1")
+        this.reportError("参数异常：-h参数须为长度为1的英文字母，当前输入长度大于1")
         this.calculating = false
       } else if (this.tail.length > 1) {
-        this.reportError("-t参数须为长度为1的英文字母，当前输入长度大于1")
+        this.reportError("参数异常：-t参数须为长度为1的英文字母，当前输入长度大于1")
         this.calculating = false
       } else if (this.reject.length > 1) {
-        this.reportError("-j参数须为长度为1的英文字母，当前输入长度大于1")
+        this.reportError("参数异常：-j参数须为长度为1的英文字母，当前输入长度大于1")
         this.calculating = false
       } else if (!(this.head.length == 0 || (this.head.charCodeAt(0) >= "a".charCodeAt(0) && this.head.charCodeAt(0) <= "z".charCodeAt(0))
         || (this.head.charCodeAt(0) >= "A".charCodeAt(0) && this.head.charCodeAt(0) <= "Z".charCodeAt(0)))) {
-        this.reportError("-h参数须为长度为1的英文字母，当前输入非英文字母")
+        this.reportError("参数异常：-h参数须为长度为1的英文字母，当前输入非英文字母")
         this.calculating = false
       } else if (!(this.tail.length == 0 || (this.tail.charCodeAt(0) >= "a".charCodeAt(0) && this.tail.charCodeAt(0) <= "z".charCodeAt(0))
         || (this.tail.charCodeAt(0) >= "A".charCodeAt(0) && this.tail.charCodeAt(0) <= "Z".charCodeAt(0)))) {
-        this.reportError("-t参数须为长度为1的英文字母，当前输入非英文字母")
+        this.reportError("参数异常：-t参数须为长度为1的英文字母，当前输入非英文字母")
         this.calculating = false
       } else if (!(this.reject.length == 0 || (this.reject.charCodeAt(0) >= "a".charCodeAt(0) && this.reject.charCodeAt(0) <= "z".charCodeAt(0))
         || (this.reject.charCodeAt(0) >= "A".charCodeAt(0) && this.reject.charCodeAt(0) <= "Z".charCodeAt(0)))) {
-        this.reportError("-j参数须为长度为1的英文字母，当前输入非英文字母")
+        this.reportError("参数异常：-j参数须为长度为1的英文字母，当前输入非英文字母")
         this.calculating = false
       } else {
         core.async(
           this.inputText,
-          [0, this.allowRing ? 3 : 1, 2, this.allowRing ? 3 : 1][this.selectedMode],
+          [0, this.allowRing ? 3 : 1, this.allowRing ? 3 : 1, this.allowRing ? 3 : 1][this.selectedMode],
           this.noAvailableOptions || !this.head ? 0 : this.head.charCodeAt(0),
           this.noAvailableOptions || !this.tail ? 0 : this.tail.charCodeAt(0),
           this.noAvailableOptions || !this.reject ? 0 : this.reject.charCodeAt(0),
@@ -395,7 +395,18 @@ export default {
           (e, d) => {
             if (e) this.reportError(e)
             if (/^WordList-GUI: /.test(d)) {
-              this.reportError(d.substring(14))
+              if (/^WordList-GUI: CoreError: LOOP/.test(d)) {
+                this.reportError("输入非法：检测到单词环")
+              } else if (/^WordList-GUI: File Input Error: at least two different words/.test(d)) {
+                this.reportError("输入非法：至少输入两个不重复单词")
+              } else if (/^WordList-GUI: CoreError: No Chain/.test(d)) {
+                this.reportError("运行异常：没有合法单词链")
+              } else if (/^WordList-GUI: no solution exists/.test(d)) {
+                this.reportError("不存在可行解")
+              } else {
+                this.reportError(d.substring(14))
+              }
+              //this.reportError(d.substring(14))
             } else {
               this.outputText = d
               this.runMessage = '' + moment().diff(start) + ''
