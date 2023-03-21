@@ -1,5 +1,7 @@
 # WordChainGUI
 
+***重要：本项目基于[two-thirds-of-icpc-gui](https://github.com/GrapeLemonade/two-thirds-of-icpc-gui)框架开发，知识产权归属该上游项目所有者***
+
 ## 结对编程项目：单词链求解器（GUI 子模块）
 
 - 基本功能
